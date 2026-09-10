@@ -56,8 +56,8 @@ export default function Login() {
               <Leaf className="w-7 h-7 text-white" />
             </div>
             <div className="text-left">
-              <p className="font-bold text-xl text-slate-800 leading-tight">AYUSH AI</p>
-              <p className="text-xs text-slate-500">Case-Taking &amp; Digital Patient History</p>
+              <p className="font-bold text-xl text-slate-800 leading-tight">Clinix</p>
+              <p className="text-xs text-slate-500">AI-Assisted Digital Patient Case-Taking</p>
             </div>
           </div>
           <h1 className="text-2xl font-bold text-slate-800">Doctor Sign In</h1>

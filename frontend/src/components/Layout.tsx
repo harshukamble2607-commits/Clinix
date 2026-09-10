@@ -50,8 +50,8 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Leaf className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="font-bold text-slate-800 leading-tight">AYUSH AI</p>
-              <p className="text-[11px] text-slate-500">Case-Taking System</p>
+              <p className="font-bold text-slate-800 leading-tight">Clinix</p>
+              <p className="text-[11px] text-slate-500">AI Case-Taking System</p>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <main className="flex-1 px-5 md:px-8 py-6">{children}</main>
 
         <footer className="px-5 md:px-8 py-4 text-xs text-slate-400 border-t border-slate-200 bg-white">
-          AYUSH AI Case-Taking &amp; Digital Patient History System &middot; Smart India Hackathon 2026 &middot; Ministry of AYUSH &middot; Demo environment with synthetic patient data only
+          Clinix AI-Assisted Case-Taking &amp; Digital Patient History System &middot; Smart India Hackathon 2026 &middot; Ministry of AYUSH &middot; Demo environment with synthetic patient data only
         </footer>
       </div>
     </div>
