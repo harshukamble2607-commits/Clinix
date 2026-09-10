@@ -1,185 +1,738 @@
-# AYUSH AI — Case-Taking & Digital Patient History System
+# 🩺 Clinix — AI-Assisted Digital Consultation Platform
 
-Doctor-facing clinical documentation and patient-history platform for the
-**Smart India Hackathon (SIH) 2026**, aligned with the **Ministry of AYUSH**
-problem statement.
+<div align="center">
 
-- FastAPI (Python 3.11+) backend with PostgreSQL, JWT + Argon2 security
-- React (Vite + TypeScript + Tailwind) responsive frontend
-- Google Gemini AI runs **only on the backend** through environment variables
-- Speech-to-text (English / Hindi / Marathi, plus Auto Detect) via MediaRecorder
-- AI never replaces the doctor: everything AI produces is reviewable, editable and must be approved by the doctor
-- **All data is synthetic.** No real patient information is ever stored.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,50:1e3a5f,100:0ea5e9&height=180&section=header&text=Clinix&fontSize=55&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=AI-Assisted%20Digital%20Patient%20Case-Taking&descAlignY=58&descSize=18" />
+
+### 🧑‍⚕️ AI-assisted documentation • 🎙️ Speech-to-text • 📋 Digital patient history
+
+**Built for Smart India Hackathon (SIH) 2026**
+
+<br/>
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?style=for-the-badge\&logo=fastapi\&logoColor=white)
+![React](https://img.shields.io/badge/React-TypeScript-61DAFB?style=for-the-badge\&logo=react\&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge\&logo=postgresql\&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge\&logo=docker\&logoColor=white)
+![Gemini](https://img.shields.io/badge/Google%20Gemini-AI-4285F4?style=for-the-badge\&logo=google\&logoColor=white)
+
+</div>
 
 ---
 
-## 1. Project Structure
+## 📌 About Clinix
 
+**Clinix** is a doctor-facing digital consultation and patient-history platform designed to reduce manual documentation during consultations.
+
+The system captures the patient's conversation, converts speech into text, and uses AI to create a structured draft of the case history.
+
+The important principle is:
+
+> **AI assists the doctor — the doctor remains in control.**
+
+AI-generated content is always **reviewable, editable, and requires explicit doctor approval** before being used in the consultation workflow.
+
+**All project data is synthetic. No real patient information is stored.**
+
+---
+
+# ✨ Key Features
+
+### 🎙️ Speech-to-Text
+
+* Real-time microphone recording
+* English, Hindi and Marathi support
+* Auto Detect language option
+* MediaRecorder-based audio capture
+* Audio MIME-type normalization
+* Microphone signal detection
+* Upload diagnostics
+* Transcript remains editable by the doctor
+
+### 📝 AI Case History
+
+Gemini converts the approved transcript into a structured draft containing information such as:
+
+* Chief Complaint
+* History of Present Illness
+* Symptoms
+* Relevant patient history
+
+The doctor can:
+
+**Generate → Review → Edit → Approve**
+
+AI output is never automatically treated as the final medical record.
+
+### 💊 AI Medicine Suggestions
+
+Medicine suggestions are intentionally protected by an approval workflow:
+
+```text
+Patient Conversation
+        ↓
+Speech-to-Text
+        ↓
+Doctor Reviews Transcript
+        ↓
+AI Generates Case History
+        ↓
+Doctor Reviews & Approves
+        ↓
+Medicine Suggestions Available
+        ↓
+Doctor Accepts / Rejects / Edits
 ```
-ayush-ai/
+
+This prevents AI-generated suggestions from being presented as final treatment decisions.
+
+---
+
+# 🧠 AI Safety Design
+
+Clinix follows a **Human-in-the-Loop** approach.
+
+| AI Function             | Doctor Control         |
+| ----------------------- | ---------------------- |
+| Speech transcription    | Review & edit          |
+| Case history generation | Review, edit & approve |
+| Medicine suggestions    | Accept, reject or edit |
+| Diagnosis               | **Doctor controlled**  |
+| Treatment plan          | **Doctor controlled**  |
+
+### 🔐 Core Rule
+
+**The AI does not replace the doctor.**
+
+The system is designed to assist with documentation and information organization while keeping clinical decisions with the practitioner.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                    ┌─────────────────────┐
+                    │    React Frontend   │
+                    │ TypeScript + Vite   │
+                    └──────────┬──────────┘
+                               │
+                               │ REST API + JWT
+                               ▼
+                    ┌─────────────────────┐
+                    │   FastAPI Backend   │
+                    │      Python         │
+                    └──────┬───────┬──────┘
+                           │       │
+                 ┌─────────┘       └──────────┐
+                 ▼                            ▼
+        ┌─────────────────┐          ┌─────────────────┐
+        │   PostgreSQL    │          │  Gemini API     │
+        │ Patient History │          │ AI Processing   │
+        │ Consultations   │          └─────────────────┘
+        │ Audit Logs      │
+        └─────────────────┘
+
+                           │
+                           ▼
+                    ┌─────────────────┐
+                    │ Local Uploads   │
+                    │ Audio / Reports │
+                    └─────────────────┘
+```
+
+### 🔒 AI Request Flow
+
+```text
+React
+  │
+  ▼
+FastAPI
+  │
+  ├── Authentication
+  ├── Validation
+  ├── Business Logic
+  │
+  ▼
+Gemini API
+  │
+  ▼
+FastAPI
+  │
+  ▼
+React
+```
+
+The Gemini API key is **never exposed to the frontend or browser**.
+
+---
+
+# 🛠️ Technology Stack
+
+## Frontend
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* MediaRecorder API
+
+## Backend
+
+* Python
+* FastAPI
+* SQLAlchemy
+* Pydantic
+* JWT Authentication
+* Argon2 Password Hashing
+
+## Database
+
+* PostgreSQL
+
+## AI
+
+* Google Gemini API
+
+## Development & Infrastructure
+
+* Docker
+* Git
+* GitHub
+* Pytest
+
+---
+
+# 📂 Project Structure
+
+```text
+clinix/
+│
 ├── backend/
 │   ├── app/
-│   │   ├── main.py               # FastAPI app, CORS, router mounting
-│   │   ├── config.py             # Environment configuration
-│   │   ├── database.py           # SQLAlchemy engine / session
-│   │   ├── models/__init__.py    # All ORM models (12 tables)
-│   │   ├── schemas/__init__.py   # Pydantic schemas
+│   │   ├── main.py
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   │
+│   │   ├── models/
+│   │   │   └── __init__.py
+│   │   │
+│   │   ├── schemas/
+│   │   │   └── __init__.py
+│   │   │
 │   │   ├── routes/
-│   │   │   ├── auth.py           # login, me
-│   │   │   ├── doctors.py        # profile, verify, reject, pending
-│   │   │   ├── patients.py       # list, search, detail, create
-│   │   │   ├── consultations.py  # CRUD, transcript, case history, suggestions
-│   │   │   ├── ai.py             # case-history + medicine suggestions (Gemini)
-│   │   │   ├── stt.py            # POST /stt/transcribe (audio → Gemini)
-│   │   │   ├── reports.py        # PDF/JPG/PNG upload + AI summary
-│   │   │   ├── admin.py          # dashboard + audit logs
-│   │   │   └── health.py         # health check
-│   │   ├── services/ai_service.py  # Gemini integration (server-side only)
-│   │   └── utils/                # security (JWT/Argon2), audit logging
-│   ├── tests/test_api.py         # 25 integration tests
-│   ├── seed.py                   # Synthetic demo data seeder
+│   │   │   ├── auth.py
+│   │   │   ├── doctors.py
+│   │   │   ├── patients.py
+│   │   │   ├── consultations.py
+│   │   │   ├── ai.py
+│   │   │   ├── stt.py
+│   │   │   ├── reports.py
+│   │   │   ├── admin.py
+│   │   │   └── health.py
+│   │   │
+│   │   ├── services/
+│   │   │   └── ai_service.py
+│   │   │
+│   │   └── utils/
+│   │
+│   ├── tests/
+│   │   └── test_api.py
+│   │
+│   ├── seed.py
 │   ├── requirements.txt
 │   └── .env.example
+│
 ├── frontend/
 │   ├── src/
-│   │   ├── api/client.ts         # Centralized API client (JWT, upload, errors)
-│   │   ├── context/AuthContext.tsx
-│   │   ├── hooks/useRecorder.ts  # MediaRecorder hook
-│   │   ├── components/           # Layout, ProtectedRoute, UI kit
-│   │   └── pages/                # Login, Dashboard, Patients, PatientProfile,
-│   │                             # Consultations, ConsultationWorkspace,
-│   │                             # Reports, Profile, Settings, Admin* (3)
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   └── pages/
+│   │
 │   ├── package.json
 │   ├── vite.config.ts
 │   └── .env.example
+│
 └── README.md
 ```
 
-## 2. Installation Commands
+---
+
+# 🚀 Getting Started
+
+## 1. Clone the Repository
 
 ```bash
-# Backend (Python 3.11+/3.12 recommended)
-cd backend
-python -m venv .venv
-# Windows:  .venv\Scripts\activate      macOS/Linux:  source .venv/bin/activate
-pip install -r requirements.txt
-
-# Frontend (Node 18+)
-cd frontend
-npm install
+git clone <YOUR_REPOSITORY_URL>
+cd clinix
 ```
 
-## 3. Environment Variables
+---
 
-Backend — copy `backend/.env.example` to `backend/.env`:
-
-| Variable | Description |
-|---|---|
-| `DATABASE_URL` | `postgresql+psycopg://user:pass@localhost:5432/ayush_ai` |
-| `JWT_SECRET_KEY` | Secret used to sign JWTs |
-| `JWT_ACCESS_TOKEN_EXPIRE_MINUTES` | Token lifetime (default 60) |
-| `GEMINI_API_KEY` | Gemini API key (leave empty to test graceful AI-unavailable errors) |
-| `GEMINI_MODEL` | e.g. `gemini-1.5-flash` / `gemini-2.0-flash` |
-| `CORS_ORIGINS` | Comma-separated allowed frontend origins |
-| `UPLOAD_DIR` / `MAX_UPLOAD_SIZE_MB` | Report/audio storage settings |
-
-Frontend — copy `frontend/.env.example` to `frontend/.env`:
-
-| Variable | Description |
-|---|---|
-| `VITE_API_BASE_URL` | e.g. `http://localhost:8001/api/v1` |
-
-> The Gemini API key **never** appears in React code or the browser. All AI calls
-> go `React → FastAPI → Gemini`.
-
-## 4. Database Setup
+## 2. Backend Setup
 
 ```bash
-# One-time: create the database (adjust to your Postgres setup)
-psql -U postgres -h localhost -c "CREATE DATABASE ayush_ai;"
-
-# Create tables + schema
 cd backend
-python -c "from app.main import app"   # creates all tables on startup
 
-# Seed synthetic demo data (users, doctors, 3 patients, consultations,
-# transcripts, case histories, suggestions, reports, audit logs)
+python -m venv .venv
+```
+
+### Windows
+
+```powershell
+.venv\Scripts\activate
+```
+
+### macOS / Linux
+
+```bash
+source .venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# 🔑 Environment Variables
+
+Create:
+
+```text
+backend/.env
+```
+
+from:
+
+```text
+backend/.env.example
+```
+
+Example:
+
+```env
+DATABASE_URL=postgresql+psycopg://user:password@localhost:5432/clinix
+
+JWT_SECRET_KEY=change-this-secret
+
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES=60
+
+GEMINI_API_KEY=your_gemini_api_key
+
+GEMINI_MODEL=gemini-2.0-flash
+
+CORS_ORIGINS=http://localhost:5173
+
+UPLOAD_DIR=uploads
+
+MAX_UPLOAD_SIZE_MB=25
+```
+
+### ⚠️ Security
+
+Never commit `.env` to GitHub.
+
+```text
+.env
+.env.local
+```
+
+should remain in `.gitignore`.
+
+---
+
+# 🗄️ Database Setup
+
+Clinix uses PostgreSQL.
+
+Create the database:
+
+```bash
+psql -U postgres -h localhost -c "CREATE DATABASE clinix;"
+```
+
+Initialize the application:
+
+```bash
+cd backend
+
+python -c "from app.main import app"
+```
+
+Seed synthetic demo data:
+
+```bash
 python seed.py
 ```
 
-## 5. Backend Start
+---
+
+# ▶️ Run the Backend
+
+From the `backend` directory:
 
 ```bash
-cd backend
 uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
 ```
 
-## 6. Frontend Start
+Backend:
+
+```text
+http://localhost:8001
+```
+
+Swagger documentation:
+
+```text
+http://localhost:8001/docs
+```
+
+OpenAPI:
+
+```text
+http://localhost:8001/openapi.json
+```
+
+Health check:
+
+```text
+http://localhost:8001/api/v1/health
+```
+
+---
+
+# 💻 Run the Frontend
+
+Open another terminal:
 
 ```bash
 cd frontend
-npm run dev        # http://localhost:5173
+npm install
+npm run dev
 ```
 
-## 7. Demo Login Credentials
+Frontend:
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@ayush.demo` | `Admin@123` |
-| Doctor (verified) | `dr.sharma@ayush.demo` | `Doctor@123` |
-| Doctor (pending verification) | `dr.patel@ayush.demo` | `Doctor@123` |
-| Staff | `staff@ayush.demo` | `Staff@123` |
+```text
+http://localhost:5173
+```
 
-Patients: **Patient Demo 1 / 2 / 3** (synthetic IDs `DEMO-PATIENT-0001..0003`,
-codes `AYU-2026-1001..1003`). No Aadhaar or real information is present.
+---
 
-## 8. API Documentation
+# 🔐 Demo Accounts
 
-- Swagger UI: `http://localhost:8001/docs`
-- OpenAPI JSON: `http://localhost:8001/openapi.json`
-- Health: `GET /api/v1/health`
+The project uses synthetic demo accounts.
 
-## 9. Testing the Complete Consultation Workflow
+| Role           | Email                  | Purpose                              |
+| -------------- | ---------------------- | ------------------------------------ |
+| Admin          | `admin@ayush.demo`     | Doctor verification & administration |
+| Doctor         | `dr.sharma@ayush.demo` | Consultation workflow                |
+| Pending Doctor | `dr.patel@ayush.demo`  | Verification workflow                |
+| Staff          | `staff@ayush.demo`     | Staff access                         |
 
-1. Open `http://localhost:5173` → click **doctor demo account** → Sign in.
-2. Dashboard loads with stats. Click **Quick Start Consultation** (or **Patients**).
-3. In Patient search, type `Demo` → **View Record** (Patient Demo 1).
-4. Click **Start New Consultation** → the consultation workspace opens.
-5. Choose a language (**English / Hindi / Marathi / Auto Detect**).
-6. Click **Start Recording** → speak (demo audio from your mic) → **Stop**.
-7. Click **Generate Transcript**. The transcript appears (**AI transcription — doctor review required**).
-   - If no `GEMINI_API_KEY` is set, the UI shows a clear error and logs the technical detail to the console only.
-8. Use **Edit Transcript** to correct anything → **Save Transcript**.
-9. Click **Generate Case History** → structured fields appear. Edit/adjust any field.
-10. Click **Accept & Approve Case History** → status becomes **Doctor Approved**.
-11. Click **Request AI Medicine Suggestions** → review each suggestion → **Accept / Reject / Edit**.
-12. Click **Complete Consultation**.
-13. Open the patient record again to see the updated history and timeline.
+> Demo passwords are defined by the local seed configuration and should never be used in production.
 
-Admin verification flow: sign in as **admin** → **Verify Doctors** → Verify or Reject
-the pending doctor → check **Audit Logs** for the recorded action.
+---
 
-Run the automated checks:
+# 🧪 Testing
+
+Backend integration tests:
 
 ```bash
 cd backend
-python -m pytest tests/test_api.py -q   # 25 integration tests
-cd ../frontend
-npm run build                           # type-check + production build
+python -m pytest tests/test_api.py -q
 ```
 
-## 10. Known Limitations
+Current test suite:
 
-- **AI availability**: Gemini features require `GEMINI_API_KEY` in `backend/.env`.
-  Without it the app runs fully and returns a clear *"AI provider not configured"*
-  error (503) — it never fakes AI output. Actual STT / case-history / suggestion
-  responses were verified only against the error paths in this environment.
-- **Recording**: `MediaRecorder` (Chrome/Edge/Firefox). Safari is supported where
-  `audio/mp4` is available. Transcription preserves the patient's spoken language;
-  it is not machine-translated.
-- **Reports**: PDFs are text-extracted with `pypdf`. Image (JPG/PNG) summaries rely
-  on Gemini multimodality; without a key the report is uploaded and stored but not summarized.
-- **Demo-only**: No real patient data; doctor verification, reports and audio are
-  stored locally under `backend/uploads` or in PostgreSQL.
-- **Port 8000** may be occupied by an older demo backend on some machines; the new
-  backend uses **8001**.
+**24+ passing tests**
+
+Frontend production build:
+
+```bash
+cd frontend
+npm run build
+```
+
+---
+
+# 🔄 Complete Consultation Workflow
+
+```text
+1. Doctor Login
+       ↓
+2. Search Patient
+       ↓
+3. Open Patient Record
+       ↓
+4. Start Consultation
+       ↓
+5. Select Language
+       ↓
+6. Record Conversation
+       ↓
+7. Generate Transcript
+       ↓
+8. Doctor Reviews Transcript
+       ↓
+9. Edit / Save Transcript
+       ↓
+10. Generate Case History
+       ↓
+11. Doctor Reviews Case History
+       ↓
+12. Doctor Approves Case
+       ↓
+13. Request AI Medicine Suggestions
+       ↓
+14. Doctor Reviews Suggestions
+       ↓
+15. Accept / Reject / Edit
+       ↓
+16. Complete Consultation
+```
+
+---
+
+# 👨‍⚕️ Doctor Verification
+
+Clinix also includes an administrative verification workflow.
+
+```text
+Doctor Registration
+        ↓
+Pending Verification
+        ↓
+Admin Review
+        ↓
+Verify / Reject
+        ↓
+Audit Log
+```
+
+Administrative actions are recorded for traceability.
+
+---
+
+# 📊 Patient Records
+
+The platform supports:
+
+* Patient search
+* Patient profiles
+* Consultation history
+* Digital case history
+* Transcripts
+* Reports
+* Consultation timeline
+* Audit logging
+
+All demo records are synthetic.
+
+---
+
+# 📄 Reports
+
+Supported report formats:
+
+* PDF
+* JPG
+* PNG
+
+PDF reports can be text-extracted.
+
+Image reports can be processed using Gemini multimodal capabilities when the API key is configured.
+
+---
+
+# 🔒 Security
+
+Clinix implements:
+
+* JWT authentication
+* Argon2 password hashing
+* Role-based access control
+* Backend-only Gemini API access
+* Environment-based secrets
+* Protected API routes
+* Doctor verification
+* Audit logging
+* Input validation
+* File upload restrictions
+
+---
+
+# ⚠️ Current Limitations
+
+Clinix is currently a **prototype / SIH demonstration project**, not a production medical system.
+
+### AI Availability
+
+Gemini features require:
+
+```text
+GEMINI_API_KEY
+```
+
+If the key is unavailable, the backend returns a clear AI-provider error instead of generating fake output.
+
+### Speech Recognition
+
+Speech-to-text depends on the configured AI service and supported audio formats.
+
+### Data
+
+All current data is synthetic.
+
+**No real patient records should be uploaded.**
+
+### Production Readiness
+
+A production deployment would require additional work around:
+
+* Healthcare compliance
+* Encryption and key management
+* Secure cloud storage
+* Production-grade monitoring
+* Stronger access policies
+* Data retention policies
+* Formal security testing
+* Regulatory requirements
+
+---
+
+# 🎯 Project Goals
+
+Clinix is designed around three main goals:
+
+### 1️⃣ Reduce Documentation Work
+
+Convert spoken consultation information into structured digital records.
+
+### 2️⃣ Improve Patient History Management
+
+Keep consultation information organized and easier for practitioners to review.
+
+### 3️⃣ Keep Doctors in Control
+
+Use AI as an assistant rather than an autonomous medical decision-maker.
+
+---
+
+# 🧩 Key Engineering Lessons
+
+During development, several real-world engineering problems were encountered.
+
+### 🎙️ Audio Handling
+
+Microphone recordings required:
+
+* Signal validation
+* MIME normalization
+* Upload diagnostics
+* Empty/silent audio detection
+
+### 🤖 AI Rate Limits
+
+Gemini quota limits can produce HTTP `429` responses.
+
+Clinix handles this with a clear retry experience rather than exposing confusing technical errors to the user.
+
+### 🔐 Backend-Only AI
+
+The Gemini API key is intentionally kept on the backend:
+
+```text
+❌ React → Gemini
+
+✅ React → FastAPI → Gemini
+```
+
+This prevents exposing the API credential in browser code.
+
+---
+
+# 🌟 Project Highlights
+
+<div align="center">
+
+| Feature                   | Status |
+| ------------------------- | ------ |
+| 🔐 JWT Authentication     | ✅      |
+| 👨‍⚕️ Doctor Verification | ✅      |
+| 👥 Patient Management     | ✅      |
+| 🎙️ Speech-to-Text        | ✅      |
+| 📝 AI Case History        | ✅      |
+| 💊 AI Suggestions         | ✅      |
+| 📄 Report Upload          | ✅      |
+| 📊 Patient Timeline       | ✅      |
+| 🧾 Audit Logs             | ✅      |
+| 🧪 Automated Tests        | ✅      |
+| 🐳 Docker Database        | ✅      |
+
+</div>
+
+---
+
+# 📈 Future Improvements
+
+* 🌐 Cloud deployment
+* 📱 Improved mobile experience
+* 🔊 More robust multilingual speech processing
+* 🗂️ Advanced patient-history search
+* 📊 Analytics dashboard
+* 🔐 Production-grade encryption
+* 🧪 Expanded automated test coverage
+* ☁️ Secure cloud storage
+* ⚡ Improved AI response handling
+
+---
+
+# 👨‍💻 Developer
+
+<div align="center">
+
+### Harshvardhan Kamble
+
+**Computer Science Engineering Student | Full-Stack Developer**
+
+<a href="https://github.com/harshukamble2607-commits">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+</a>
+
+<a href="https://www.linkedin.com/in/harshvardhan-kamble-36820132a">
+<img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
+</a>
+
+</div>
+
+---
+
+# 🏆 Smart India Hackathon 2026
+
+**Problem Area:** MedTech / BioTech / HealthTech
+
+**Problem Statement:** Ministry of AYUSH
+
+**Project:** Clinix
+
+**Focus:** Digital patient case-taking, consultation documentation and AI-assisted clinical workflow.
+
+---
+
+<div align="center">
+
+### 🚀 Build. Learn. Improve.
+
+⭐ If you find Clinix interesting, consider giving the repository a star!
+
+<br/>
+
+<img src="https://komarev.com/ghpvc/?username=harshukamble2607-commits&label=Profile%20Views&color=0ea5e9&style=for-the-badge" />
+
+</div>
